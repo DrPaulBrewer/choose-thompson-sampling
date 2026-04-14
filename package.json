@@ -1,0 +1,30 @@
+{
+  "name": "choose-thompson-sampling",
+  "version": "0.1.0",
+  "description": "chooses one of two functions to call by using a Bayes-Gittens-Thompson sampling framework",
+  "main": "index.mjs",
+  "scripts": {
+    "test": "node --test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/drpaulbrewer/choose-thompson-sampling.git"
+  },
+  "keywords": [
+    "Bayesian-optimization",
+    "algorithmic-choice",
+    "Gittens-index",
+    "Thompson-sampling",
+    "nodejs"
+  ],
+  "author": "Paul Brewer and various AIs",
+  "license": "MIT",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/drpaulbrewer/choose-thompson-sampling/issues"
+  },
+  "homepage": "https://github.com/drpaulbrewer/choose-thompson-sampling#readme",
+  "dependencies": {
+    "jstat": "^1.9.6"
+  }
+}
