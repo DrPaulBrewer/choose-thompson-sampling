@@ -18,7 +18,7 @@ export default function choose(F, G, reset) {
   
   let callCount = 0;
 
-  return async function(...args) {
+  const wrapper = async function(...args) {
     let primaryKey;
 
     if (callCount === 0) {
@@ -67,6 +67,29 @@ export default function choose(F, G, reset) {
 
     return result;
   };
+
+  const readOnlyHandler = {
+    get(target, prop, receiver) {
+      const val = Reflect.get(target, prop, receiver);
+      if (typeof val === 'object' && val !== null) {
+        return new Proxy(val, readOnlyHandler);
+      }
+      return val;
+    },
+    set() {
+      throw new TypeError("Cannot modify read-only model parameters");
+    },
+    defineProperty() {
+      throw new TypeError("Cannot modify read-only model parameters");
+    },
+    deleteProperty() {
+      throw new TypeError("Cannot modify read-only model parameters");
+    }
+  };
+
+  wrapper.stats = new Proxy(stats, readOnlyHandler);
+
+  return wrapper;
 }
 
 function updateWithObs(m, msObs, applyCap, lambda) {
