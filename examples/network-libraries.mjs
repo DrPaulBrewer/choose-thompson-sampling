@@ -3,12 +3,14 @@ import axios from 'axios';
 import request from 'request';
 import https from 'https';
 
+const url = 'https://google.com'
+
 // Random delay between 1-2 seconds
 const randomDelay = () => new Promise(resolve => setTimeout(resolve, 1000 + Math.random() * 1000));
 
 async function fetchWithNodeFetch() {
   const start = process.hrtime.bigint();
-  const res = await fetch('https://github.com/index.html');
+  const res = await fetch(url);
   await res.text();
   const end = process.hrtime.bigint();
   return { lib: 'node:fetch', time: Number(end - start) / 1e6 };
@@ -16,7 +18,7 @@ async function fetchWithNodeFetch() {
 
 async function fetchWithAxios() {
   const start = process.hrtime.bigint();
-  await axios.get('https://github.com/index.html');
+  await axios.get(url);
   const end = process.hrtime.bigint();
   return { lib: 'axios', time: Number(end - start) / 1e6 };
 }
@@ -24,7 +26,7 @@ async function fetchWithAxios() {
 async function fetchWithRequest() {
   const start = process.hrtime.bigint();
   return new Promise((resolve, reject) => {
-    request('https://github.com/index.html', (error, response, body) => {
+    request(url, (error, response, body) => {
       if (error) return reject(error);
       const end = process.hrtime.bigint();
       resolve({ lib: 'request', time: Number(end - start) / 1e6 });
@@ -35,7 +37,7 @@ async function fetchWithRequest() {
 async function fetchWithHttps() {
   const start = process.hrtime.bigint();
   return new Promise((resolve, reject) => {
-    https.get('https://github.com/index.html', (res) => {
+    https.get(url, (res) => {
       let data = '';
       res.on('data', chunk => data += chunk);
       res.on('end', () => {
@@ -52,7 +54,7 @@ const optimizeHttpsVsRequest = choose(fetchWithHttps, fetchWithRequest);
 
 async function run() {
   console.log("Starting Network Libraries Comparison...");
-  console.log("We will repeatedly GET https://github.com/index.html with different libraries.\n");
+  console.log("We will repeatedly GET https://google.com with different libraries.\n");
 
   console.log("--- TEST 1: node:fetch vs axios ---");
   for (let i = 1; i <= 20; i++) {
