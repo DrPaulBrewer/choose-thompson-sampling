@@ -12,7 +12,7 @@ async function fetchHead1() {
   if (!isFinite(contentLength))
     throw new Error("cannot read content-length, not a number");
   const end = process.hrtime.bigint();
-  return { method: 'HEAD', time: Number(end - start) / 1e6, contentLength };
+  return { method: 'fetch:HEAD', time: Number(end - start) / 1e6, contentLength };
 }
 
 async function fetchHead2(){
@@ -22,7 +22,7 @@ async function fetchHead2(){
   if (!isFinite(contentLength))
     throw new Error("cannot read content-length, not a number");
   const end = process.hrtime.bigint();
-  return { method: 'HEAD', time: Number(end - start) / 1e6, contentLength };
+  return { method: 'https: HEAD', time: Number(end - start) / 1e6, contentLength };
 }
 
 async function fetchGet() {
